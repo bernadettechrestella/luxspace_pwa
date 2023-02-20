@@ -1,4 +1,13 @@
+import { useState } from "react";
+import Modal from "./Modal";
+
 function Hero() {
+  const [showModal, setShowModal] = useState(false);
+
+  function handleShowModal(){
+    setShowModal(!showModal);
+  }
+
     return (
         <section className="flex items-center hero">
       <div
@@ -25,18 +34,7 @@ function Hero() {
           <div className="overlay right-0 bottom-0 md:inset-0">
             <button
               className="video hero-cta focus:outline-none z-30 modal-trigger"
-              data-content='<div className="w-screen pb-56 md:w-88 md:pb-56 relative z-50">
-              <div className="absolute w-full h-full">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/3h0_v1cdUIA"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>'
+              onClick={handleShowModal}
             ></button>
           </div>
           <img
@@ -46,6 +44,7 @@ function Hero() {
           />
         </div>
       </div>
+      {showModal && <Modal handleShowModal={handleShowModal} />}
     </section>
     )
 }
