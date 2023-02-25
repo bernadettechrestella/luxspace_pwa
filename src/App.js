@@ -6,9 +6,17 @@ import Arrived from './components/Arrived';
 import Clients from './components/Clients';
 import AsideMenu from './components/AsideMenu';
 import Footer from './components/Footer';
+import Offline from './components/Offline';
 
 function App() {
   const [items, setItems] = React.useState([]);
+
+  //menampung status offline online
+  const [offlineStatus, setOfflineStatus] = React.useState(!navigator.onLine);
+
+  function handleOfflineStatus() {
+    setOfflineStatus(!navigator.onLine);
+  }
 
   //Pertama kali web di buka, api akan di load
   React.useEffect(function() {
@@ -22,11 +30,27 @@ function App() {
       });
       const { nodes } = await response.json();
       setItems(nodes);
+
+      //load carousel.js
+      const script = document.createElement("script");
+      script.src = "/carousel.js"
+      script.async = false;
+      document.body.appendChild(script);
     })();
-  }, []);
+
+    handleOfflineStatus();
+    window.addEventListener('online', handleOfflineStatus);
+    window.addEventListener('offline', handleOfflineStatus);
+
+    return function() {
+      window.removeEventListener('online', handleOfflineStatus);
+      window.removeEventListener('offline', handleOfflineStatus);
+    }
+  }, [offlineStatus]);
 
   return (
     <>
+    {offlineStatus && <Offline />}
     <Header />
     <Hero />
     <Browse />
