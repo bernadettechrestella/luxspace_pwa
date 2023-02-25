@@ -8,15 +8,32 @@ import AsideMenu from './components/AsideMenu';
 import Footer from './components/Footer';
 
 function App() {
+  const [items, setItems] = React.useState([]);
+
+  //Pertama kali web di buka, api akan di load
+  React.useEffect(function() {
+    (async function() {
+      const response = await fetch('https://prod-qore-app.qorebase.io/8ySrll0jkMkSJVk/allItems/rows?limit=7&offset=0&$order=asc', {
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+          "x-api-key": process.env.REACT_APP_APIKEY
+        }
+      });
+      const { nodes } = await response.json();
+      setItems(nodes);
+    })();
+  }, []);
+
   return (
     <>
-    <Header />,
-    <Hero />,
-    <Browse />,
-    <Arrived />,
-    <Clients />,
-    <AsideMenu />,
-    <Footer />,
+    <Header />
+    <Hero />
+    <Browse />
+    <Arrived items={items}/>
+    <Clients />
+    <AsideMenu />
+    <Footer />
     </>
   );
 }
