@@ -46,6 +46,11 @@ function App() {
     window.addEventListener('online', handleOfflineStatus);
     window.addEventListener('offline', handleOfflineStatus);
 
+    //timeout splashscreen
+    setTimeout(function() {
+      setIsLoading()
+    }, 1500);
+
     return function() {
       window.removeEventListener('online', handleOfflineStatus);
       window.removeEventListener('offline', handleOfflineStatus);
