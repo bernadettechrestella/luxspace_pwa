@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Header() {
     return(
         <header className="absolute w-full z-50 px-4">
@@ -31,9 +33,7 @@ function Header() {
                     >
                   </li>
                   <li className="mx-3 py-6 md:py-0">
-                    <a href="/" className="text-black md:text-white hover:underline"
-                      >Rewards</a
-                    >
+                    <NavLink className="text-black md:text-white hover:underline" to="/profile">Profile</NavLink>
                   </li>
                 </ul>
               </div>
