@@ -1,4 +1,6 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Browse from './components/Browse';
@@ -8,6 +10,8 @@ import AsideMenu from './components/AsideMenu';
 import Footer from './components/Footer';
 import Offline from './components/Offline';
 import Splash from './pages/Splash';
+import Profile from './pages/Profile.js';
+import Details from './components/Details';
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -76,4 +80,14 @@ function App() {
   );
 }
 
-export default App;
+export default function Routers() {
+  return (
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<App />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/details/:id" element={<Details />} />
+      </Routes>
+    </Router>
+  )
+}
