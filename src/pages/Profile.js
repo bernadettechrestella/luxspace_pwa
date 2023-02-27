@@ -1,4 +1,33 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+function urlB64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+  
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+  
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
+function subscribe() {
+    const key = "BMKYesW0ErHfDSwnHHgy1vxM87J5V2eGttShx8sQB1MB7mQzE8T32sfYTykKp8BmQ3RUXQomUDDYP7cLUNzN8D4"
+
+    try {
+        const sub = async() => await global.registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlB64ToUint8Array(key)
+        });
+        console.log("Subscribe!");
+    } catch (error) {
+        console.error("Cannot Subscribe.")
+    }
+}
 
 function Profile() {
     return (
@@ -7,12 +36,12 @@ function Profile() {
             <div className="container mx-auto py-5">
                 <div className="flex flex-stretch items-center">
                 <div className="w-56 items-center flex">
-                    <Link to="/">
+                    <NavLink to="/">
                         <img
                         src="images/content/logo.png"
                         alt="Luxspace | Fulfill your house with beautiful furniture"
                         />
-                    </Link>
+                    </NavLink>
                 </div>
                 <div className="w-full"></div>
                 <div className="w-auto">
@@ -117,10 +146,10 @@ function Profile() {
             <div className="container mx-auto">
                 <ul className="breadcrumb">
                 <li>
-                    <Link to="/">Home</Link>
+                    <NavLink to="/">Home</NavLink>
                 </li>
                 <li>
-                    <Link to="/profile" aria-label="current-page">My Profile</Link>
+                    <NavLink className={({ isActive }) => isActive ? "active nav-link" : "nav-link"} to="/profile">My Profile</NavLink>
                 </li>
                 </ul>
             </div>
@@ -148,18 +177,8 @@ function Profile() {
                     className="pb-3 mb-2 flex items-center justify-between w-full border-b border-gray-100"
                 >
                     <span>Subscribe to Notification</span>
-                    <span>
-                    <label
-                        htmlFor="subscribe"
-                        className="relative rounded-full bg-gray-200 w-12 h-7 block cursor-pointer"
-                    >
-                        <input
-                        id="subscribe"
-                        type="checkbox"
-                        className="appearance-none focus:outline-none absolute rounded-full w-5 h-5 bg-pink-400 transhtmlForm -translate-y-1/2 top-1/2 left-1 checked:left-6 block transition-all duration-300 cursor-pointer"
-                        />
-                    </label>
-                    </span>
+                    <button className="hover:underline appearance-none"
+                        onClick={subscribe}>Subscribe</button>    
                 </li>
                 <li
                     className="pb-3 mb-2 flex items-center justify-between w-full border-b border-gray-100"
@@ -169,12 +188,12 @@ function Profile() {
                 </li>
                 </ul>
                 <div className="text-center mt-12">
-                <Link
+                <NavLink
                     to="/"
                     className="text-gray-900 bg-red-200 focus:outline-none w-full py-3 rounded-full text-lg focus:text-black transition-all duration-200 px-8 cursor-pointer"
                 >
                     Back to Shop
-                </Link>
+                </NavLink>
                 </div>
             </div>
             </section>
