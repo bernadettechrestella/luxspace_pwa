@@ -38,7 +38,7 @@ function ArrivedItem({item}) {
             </div>
             <h5 className="text-lg font-semibold mt-4">{item.name}</h5>
             <span className="">{item.price}</span>
-            <NavLink to={`/details/${item.id}`} className="stretched-link">
+            <NavLink to={{pathname: `/details/${item.id}`}} state={{ item }} className="stretched-link">
             </NavLink>
         </div>
     )
